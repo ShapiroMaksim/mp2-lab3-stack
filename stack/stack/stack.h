@@ -5,11 +5,16 @@ class TStack
 	int MaxSize, Size;
 	T *mas;
 public:
-	TStack(int MS)
+	TStack(int MS=10)
 	{
 		MaxSize=MS;
 		mas=new T[MaxSize];
 		Size=0;
+	}
+
+	~TStack()
+	{
+		delete[] mas;
 	}
 
 	TStack(const TStack &v)
@@ -75,5 +80,38 @@ public:
 					chk.Pop();
 		}
 		return true;
+	}
+
+	TStack operator=(const TStack S)
+	{
+		if(MaxSize!=S.MaxSize)
+		{
+			delete[] mas;
+			mas=new T[MaxSize];
+		}
+		MaxSize=S.MaxSize;
+		Size=S.Size;
+		for(int i=0; i<Size; i++)
+			mas[i]=S.mas[i];
+	}
+
+	bool operator==(const TStack S) const
+	{
+		if(Size!=S.Size||MaxSize!=S.MaxSize)
+			return false;
+		for(int i=0; i<Size; i++)
+			if(mas[i]!=S.mas[i])
+				return false;
+		return true;
+	}
+
+	bool operator!=(const TStack S) const
+	{
+		return !(*this==S);
+	}
+
+	void Clear()
+	{
+		Size=0;
 	}
 };
